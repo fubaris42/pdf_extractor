@@ -15,7 +15,7 @@ Write-Host "Syncing requirements..." -ForegroundColor Gray
 & $pip install -r requirements.txt --upgrade
 
 # 3. Clean Artifacts
-if (Test-Path "dist") { Remove-Item -Recurse -Force "dist" }
+if (Test-Path "dist\PDFExtractor") { Remove-Item -Recurse -Force "dist\PDFExtractor" }
 if (Test-Path "build") { Remove-Item -Recurse -Force "build" }
 
 # 4. High-Performance Build (--onedir for instant launch)

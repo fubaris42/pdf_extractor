@@ -2,8 +2,7 @@ import sys
 import os
 import multiprocessing
 from pathlib import Path
-import winreg
-from pathlib import Path
+
 from PyQt6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -14,32 +13,46 @@ from PyQt6.QtWidgets import (
     QLabel,
     QLineEdit,
     QCheckBox,
-    QProgressBar,
     QHBoxLayout,
     QTextEdit,
 )
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 
-# Add the current folder to sys.path so 'core' can be found
-# regardless of how the script is launched.
-current_dir = os.path.dirname(os.path.abspath(__file__))
-if current_dir not in sys.path:
-    sys.path.insert(0, current_dir)
+from pdf_extractor.core import (
+    PDFExtractor,
+    ExtractionConfig,
+    load_search_inputs,
+)
 
-from core import PDFExtractor, ExtractionConfig, load_search_inputs
+
+if sys.platform == "win32":
+    import winreg
+else:
+    winreg = None
 
 
 def is_dark_mode():
-    """Checks Windows Registry for system theme preference."""
-    try:
-        registry = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
-        key = winreg.OpenKey(
-            registry, r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"
-        )
-        value, _ = winreg.QueryValueEx(key, "AppsUseLightTheme")
-        return value == 0
-    except Exception:
+    """Best-effort dark mode detection."""
+    if sys.platform == "win32" and winreg:
+        try:
+            registry = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
+            key = winreg.OpenKey(
+                registry,
+                r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
+            )
+            value, _ = winreg.QueryValueEx(key, "AppsUseLightTheme")
+            return value == 0
+        except Exception:
+            return False
+
+    # Linux / macOS: ask Qt palette
+    app = QApplication.instance()
+    if not app:
         return False
+
+    palette = app.palette()
+    bg = palette.color(palette.ColorRole.Window)
+    return bg.lightness() < 128
 
 
 class ExtractionWorker(QThread):
@@ -58,7 +71,7 @@ class ExtractionWorker(QThread):
 class PDFExtractGUI(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("PDF Extractor Pro")
+        self.setWindowTitle("PDF Extractor")
         self.setMinimumSize(850, 650)
         self.active_patterns = []
         self.log_file_path = None
@@ -196,8 +209,7 @@ class PDFExtractGUI(QMainWindow):
         if not out_dir or not in_dir:
             return
 
-        # LONG PATH FIX (The Extended-Length Path Prefix)
-        abs_out = os.path.abspath(out_dir)
+        abs_out = os.path.abspath(out_dir) # this still error on windows
         if sys.platform == "win32" and not abs_out.startswith("\\\\?\\"):
             abs_out = "\\\\?\\" + abs_out
 

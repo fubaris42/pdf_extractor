@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
+set -e
 
-pyinstaller --noconsole --onedir \
-            --name "PDFExtractor" \
-            --paths "src/pdf_extractor" \
-            "src/pdf_extractor/gui.py"
+pyinstaller \
+  --onedir \
+  --windowed \
+  --name PDFExtractorLinux \
+  --collect-submodules PyQt6 \
+  --collect-data PyQt6 \
+  --hidden-import fitz \
+  --paths src \
+  src/pdf_extractor/gui.py

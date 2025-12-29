@@ -195,7 +195,6 @@ def extract_pages_and_save(
 
 
 def process_pdf_worker_worker(config_dict: Dict, pdf_path_str: str) -> Dict:
-    import fitz # reimport cuz too slow
     start = time.time()
     pdf_path = Path(pdf_path_str)
     try:
