@@ -30,7 +30,7 @@ Write-Host "Compiling High-Performance Binary..." -ForegroundColor Green
 # 5. Desktop Integration
 $WshShell = New-Object -ComObject WScript.Shell
 $Shortcut = $WshShell.CreateShortcut("$([Environment]::GetFolderPath('Desktop'))\PDFExtractor.lnk")
-$Shortcut.TargetPath = "$(Get-Location)\dist\PDFExtractorPro\PDFExtractor.exe"
+$Shortcut.TargetPath = "$(Get-Location)\dist\PDFExtractor\PDFExtractor.exe"
 $Shortcut.WorkingDirectory = "$(Get-Location)\dist\PDFExtractor"
 $Shortcut.Save()
 
