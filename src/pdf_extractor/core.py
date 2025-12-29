@@ -13,6 +13,14 @@ from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
 
+try:
+    import fitz
+except ImportError:
+    print(
+        "PyMuPDF is not installed. Install with: pip install PyMuPDF", file=sys.stderr
+    )
+    sys.exit(1)
+
 DEFAULT_OUTPUT_DIR = Path("extracted_pages")
 DEFAULT_LOG_FILE = "pdf_extractor.log"
 MAX_WORKERS_RATIO = 0.8
@@ -187,16 +195,9 @@ def extract_pages_and_save(
 
 
 def process_pdf_worker_worker(config_dict: Dict, pdf_path_str: str) -> Dict:
+    import fitz # reimport cuz too slow
     start = time.time()
     pdf_path = Path(pdf_path_str)
-    try:
-        import fitz
-    except ImportError:
-        print(
-            "PyMuPDF is not installed. Install with: pip install PyMuPDF",
-            file=sys.stderr,
-        )
-    sys.exit(1)
     try:
         config = ExtractionConfig(**config_dict)
     except Exception as e:
