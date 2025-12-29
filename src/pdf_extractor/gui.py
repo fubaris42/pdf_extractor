@@ -20,7 +20,6 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 
-# Import your existing logic
 # Add the current folder to sys.path so 'core' can be found
 # regardless of how the script is launched.
 current_dir = os.path.dirname(os.path.abspath(__file__))
