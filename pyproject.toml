@@ -1,15 +1,12 @@
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "pdf_extractor"
+name = "pdf-extractor"
 version = "1.0.0"
-description = "A PyQt6 tool to extract PDF pages based on regex patterns"
-readme = "README.md"
+description = "High-performance PDF pattern extractor"
 requires-python = ">=3.10"
-dependencies = ["PyMuPDF>=1.26.7", "PyQt6>=6.10.1"]
+dependencies = [
+    "PyMuPDF>=1.26.7",
+    "PyQt6>=6.10.1"
+]
 
 [project.scripts]
-pdf-extract-gui = "pdf_extractor.gui:main"
-pdf-extract-cli = "pdf_extractor.core:main"
+pdf-extractor = "pdf_extractor.gui:main"

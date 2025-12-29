@@ -1,6 +1,7 @@
 import sys
 import os
 import multiprocessing
+from pathlib import Path
 import winreg
 from pathlib import Path
 from PyQt6.QtWidgets import (
@@ -20,8 +21,13 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 
 # Import your existing logic
-from .core import PDFExtractor, ExtractionConfig, load_search_inputs
+# Add the current folder to sys.path so 'core' can be found 
+# regardless of how the script is launched.
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
 
+from core import PDFExtractor, ExtractionConfig, load_search_inputs
 
 def is_dark_mode():
     """Checks Windows Registry for system theme preference."""
