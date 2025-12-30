@@ -1,6 +1,6 @@
 # PDFExtractor
 
-[ENGLISH LANGUAGE](./readme.en_us.md)
+[ENGLISH LANGUAGE](./README.en_us.md)
 
 PDFExtractor adalah aplikasi untuk **memotong / mengekstrak halaman PDF secara otomatis** berdasarkan **kata kunci tertentu**.
 Aplikasi ini sangat cocok untuk mengolah arsip PDF besar seperti invoice, laporan, kontrak, atau dokumen administrasi.
