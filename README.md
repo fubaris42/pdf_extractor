@@ -2,89 +2,233 @@
 
 [ENGLISH LANGUAGE](./readme.en_us.md)
 
-Aplikasi ekstraksi halaman PDF berperforma tinggi dengan **pencarian teks / regex**, **multi-proses**, **dukungan path panjang Windows**, serta **mode GUI dan CLI (gunakan core.py secara langsung)**.
+PDFExtractor adalah aplikasi untuk **memotong / mengekstrak halaman PDF secara otomatis** berdasarkan **kata kunci tertentu**.
+Aplikasi ini sangat cocok untuk mengolah arsip PDF besar seperti invoice, laporan, kontrak, atau dokumen administrasi.
 
-PDFExtractor memindai file PDF di sebuah folder, mencari halaman yang mengandung pola tertentu, lalu **menyimpan hanya halaman yang cocok sebagai PDF baru**.
+Aplikasi tersedia dalam bentuk **.exe (siap pakai)** dan **tidak memerlukan instalasi Python**.
 
-## Fitur
+---
 
-- Ekstrak halaman berdasarkan teks atau regex
-- Mode regex atau teks biasa
-- Multi-core processing
-- Mendukung path Windows >260 karakter
-- Struktur folder input tetap terjaga
-- Binary mandiri (tanpa Python)
+## 🎯 Fungsi Utama
 
-## Instalasi
+PDFExtractor akan melakukan hal berikut:
 
-### Binary Siap Pakai
+1. Membaca semua file PDF di sebuah folder
+2. Mencari halaman yang mengandung **kata kunci tertentu**
+3. Menyimpan **setiap halaman yang cocok** sebagai **file PDF baru**
+
+📌 **Satu halaman yang cocok = satu file PDF hasil**
+
+---
+
+## ⭐ Keunggulan Aplikasi
+
+* ✅ Pencarian berdasarkan **teks biasa atau regex**
+* ✅ Bisa mencari **banyak kata sekaligus**
+* ✅ Proses sangat cepat / 80% cpu core (multi-core CPU)
+* ✅ Mendukung **Windows Long Path** (>260 karakter)
+* ✅ Tampilan **GUI (klik-klik, tanpa terminal)**
+* ✅ Struktur folder tetap rapi
+* ✅ File hasil otomatis diberi nama jelas
+* ✅ Siap pakai dalam bentuk **PDFExtractor.exe**
+
+---
+
+## 📥 Instalasi (Sangat Mudah)
+
+### 1️⃣ Download Aplikasi
 
 1. Buka halaman **GitHub Releases**
-2. Unduh file **ZIP**
-3. Ekstrak
-4. Jalankan:
-   - `PDFExtractor.exe` (GUI) (buat desktop shortcut jika perlu)
+2. Download file **ZIP**
+3. Klik kanan → **Extract All**
 
-### Compile sendiri
+---
 
-1. Windows
+### 2️⃣ Buat Shortcut di Desktop (Disarankan)
 
-   ```powershell
-   setup_and_build.ps1
-   ```
+1. Masuk ke folder hasil extract
+2. Klik kanan pada `PDFExtractor.exe`
+3. Pilih **Show More Options → Send to → Desktop (Create shortcut)**
 
-2. Linux
+Sekarang aplikasi bisa dibuka langsung dari Desktop.
 
-   ```powershell
-   setup_and_build.sh
-   ```
+---
 
-## Cara Menggunakan
+## ▶️ Cara Menggunakan Aplikasi (GUI)
 
-### GUI
+### Langkah Umum
 
-1. Jalankan aplikasi
-2. Masukkan pola pencarian atau upload file `.txt`
-3. Pilih folder sumber PDF
-4. Pilih folder output
-5. Atur opsi (Regex, Case Sensitive, Recursive)
+1. Jalankan **PDFExtractor.exe**
+2. Tentukan **Search Pattern**
+3. Pilih **Source Folder** (folder berisi PDF)
+4. Pilih **Output Folder**
+5. Atur opsi pencarian jika perlu
 6. Klik **START EXTRACTION**
-7. Log proses tampil langsung
+7. Tunggu proses sampai selesai
 
-### Pattern File (.txt) Format
+Log proses akan tampil otomatis di bagian bawah aplikasi.
 
-1. Satu pola per baris
-2. Baris kosong di abaikan
+---
 
-Contoh File.txt
+## 🔍 Cara Mengisi Kata Kunci (Search Pattern)
 
-```txt
-foo
-bar
-baz
+Ada **2 cara** memasukkan kata kunci:
+
+---
+
+### 🔹 Opsi 1 — Input Langsung (Satu Kata / Pola)
+
+Gunakan cara ini jika hanya ingin mencari **satu kata atau satu pola**.
+
+Contoh:
+
+```
+invoice
+```
+
+Atau pola khusus (regex):
+
+```
 \bINV-\d{6}\b
 ```
 
-## Regex Flavor
+---
 
-Menggunakan **Python `re` (standard library)**.
+### 🔹 Opsi 2 — Menggunakan File `.txt` (Banyak Kata Sekaligus)
 
-- Unicode aware
-- Mendukung lookahead / lookbehind
-- Word boundary `\b`
-- Case-insensitive default
+Gunakan cara ini jika ingin mencari **banyak kata sekaligus**.
 
-Jika **regex tidak aktif**, teks akan otomatis di-escape.
+#### Cara Membuat File `.txt`
 
-## Struktur Output
+1. Buka **Notepad**
+2. Tulis **satu kata atau satu pola per baris**
+3. Simpan sebagai file `.txt`
+4. Klik tombol **Load .txt** di aplikasi
 
-- Setiap halaman cocok → satu file PDF
-- Struktur folder mengikuti input
-- Nama file berisi:
-  - Teks pertama yang cocok
-  - Nama PDF asal
-  - Nomor halaman
+Contoh isi file:
 
-## Lisensi
+```txt
+invoice
+total pembayaran
+INV-2024
+\bINV-\d{6}\b
+```
 
-beliin pilter sebungkus ama kopi segelas.
+📌 **Aturan penting**:
+
+* Satu baris = satu kata / pola
+* Baris kosong akan diabaikan
+
+---
+
+## ⚙️ Penjelasan Opsi
+
+* **Regex**
+
+  * Aktifkan jika menggunakan pola khusus (regex)
+* **Case Sensitive**
+
+  * Aktif jika ingin membedakan huruf besar dan kecil
+* **Recursive**
+
+  * Aktif jika ingin mencari PDF sampai ke subfolder
+
+---
+
+## 📁 Hasil Output
+
+Setiap halaman yang cocok akan disimpan sebagai **file PDF baru** dengan format nama:
+
+```
+[KataKunci]_[NamaPDFAsal]_page_[NomorHalaman].pdf
+```
+
+Contoh:
+
+```
+INV-123456_LaporanKeuangan_page_7.pdf
+```
+
+📂 Struktur folder output akan **mengikuti struktur folder sumber**, sehingga tetap rapi dan mudah dicari.
+
+---
+
+## ⚠️ Peringatan Penting (WAJIB DIBACA)
+
+### ❗ Jenis PDF yang Bisa Dibaca
+
+Aplikasi ini **hanya bisa membaca PDF yang berisi teks digital**.
+
+❌ **Tidak bisa diproses**:
+
+* PDF hasil **foto HP**
+* PDF hasil **scan dokumen**
+* PDF yang teksnya **tidak bisa diblok / diseleksi**
+
+Jika kamu membuka PDF dan **tidak bisa menyorot (block) teksnya**, maka:
+➡️ **PDFExtractor tidak akan menemukan data apa pun**
+
+✅ **Bisa diproses**:
+
+* PDF dari Word / Excel
+* PDF hasil export sistem
+* PDF invoice, laporan, atau e-dokumen resmi
+
+💡 **Solusi**:
+Jika PDF kamu hasil scan, gunakan aplikasi **OCR (Optical Character Recognition)** terlebih dahulu.
+
+---
+
+### 🔐 PDF Ber-Password
+
+* PDF yang **terenkripsi / memakai password** tidak bisa diproses
+* Harus dibuka dan disimpan ulang tanpa password
+
+---
+
+### 💾 Ukuran File Sangat Besar
+
+* PDF di atas **500MB – 1GB**:
+
+  * Berisiko membuat aplikasi **crash**
+  * Tergantung kapasitas RAM komputer
+
+Ini adalah keterbatasan teknis dari:
+
+* Library PDF (PyMuPDF)
+* Memori sistem
+
+💡 Tips:
+
+* Pecah PDF besar sebelum diproses
+* Tutup aplikasi berat lain saat menjalankan PDFExtractor
+
+---
+
+## 🧠 Tentang Regex (Singkat & Praktis)
+
+PDFExtractor menggunakan **regex standar Python (`re`)**.
+
+Regex cocok untuk:
+
+* Nomor invoice
+* Kode dokumen
+* Pola teks konsisten
+
+Contoh umum:
+
+```
+\bINV-\d{6}\b
+```
+
+Jika **Regex tidak dicentang**, aplikasi akan menganggap input sebagai **teks biasa**.
+
+---
+
+## 📜 Lisensi
+
+Lisensi aplikasi ini sederhana dan jujur:
+
+> **“Beliin rokok sebungkus ama kopi segelas.”**
+
+☕🚬
