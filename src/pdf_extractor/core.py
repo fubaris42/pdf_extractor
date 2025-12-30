@@ -139,7 +139,7 @@ def find_matches_in_doc_with_indices(
 ) -> Tuple[Dict[int, List[Tuple[int, str]]], Set[int]]:
     page_matches: Dict[int, List[Tuple[int, str]]] = {}
     matched_patterns: Set[int] = set()
-    for page_idx, page in enumerate(doc):
+    for page_idx, page in enumerate(doc):  # type: ignore
         try:
             text = page.get_text("text")
         except Exception:
@@ -332,10 +332,10 @@ class PDFExtractor:
                 if r.get("status") == "failed":
                     self.stats.failed_pdfs += 1
                     self.stats.errors.append(
-                        f"{Path(r.get('pdf')).name}: {r.get('error')}"
+                        f"{Path(r.get('pdf')).name}: {r.get('error')}"  # type: ignore
                     )
                     self.logger.error(
-                        f"Failed: {Path(r.get('pdf')).name}: {r.get('error')}"
+                        f"Failed: {Path(r.get('pdf')).name}: {r.get('error')}"  # type: ignore
                     )
                 else:
                     self.stats.processed_pdfs += 1
@@ -346,10 +346,10 @@ class PDFExtractor:
                             r.get("matched_pattern_indices", [])
                         )
                         self.logger.info(
-                            f"Extracted {r.get('pages_extracted', 0)} pages from {Path(r.get('pdf')).name} ({r.get('matches_found', 0)} matches)"
+                            f"Extracted {r.get('pages_extracted', 0)} pages from {Path(r.get('pdf')).name} ({r.get ('matches_found', 0)} matches)"  # type: ignore
                         )
                     elif r.get("status") == "no_matches":
-                        self.logger.info(f"No matches in {Path(r.get('pdf')).name}")
+                        self.logger.info(f"No matches in {Path(r.get('pdf')).name}")  # type: ignore
         self.stats.processing_time = time.time() - start_time
         total_patterns = list(range(len(self.config.pattern_inputs)))
         unmatched = [i for i in total_patterns if i not in matched_pattern_global]
