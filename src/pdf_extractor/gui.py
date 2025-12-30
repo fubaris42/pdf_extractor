@@ -28,6 +28,11 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QPalette, QColor
 
+# Add 'src' to sys.path if running directly so 'pdf_extractor' package is found
+src_path = str(Path(__file__).resolve().parent.parent)
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
 # ✅ Proper package imports (PyInstaller-safe)
 from pdf_extractor.core import PDFExtractor, ExtractionConfig, load_search_inputs
 
